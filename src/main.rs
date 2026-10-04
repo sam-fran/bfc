@@ -1,29 +1,36 @@
 use clap::Parser;
 use std::fs;
 
+mod parser;
+
 #[derive(Parser, Debug)]
 struct Args {
     input_path: String,
-    output_path: String,
+
+    #[arg(short)]
+    output_path: Option<String>,
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+fn main() {
     let args = Args::parse();
-	let mut output = String::new();
 
     let input_string = match fs::read_to_string(&args.input_path) {
-        Ok(contents) => contents,
+        Ok(value) => value,
         Err(err) => {
             eprintln!("Failed to read '{}': {}", args.input_path, err);
             std::process::exit(1);
         }
     };
 
-    for c in input_string.chars() {
-		output.push_str(match c {
-			_ => "",
-		})
-    }
+    let output = parser::parse(input_string);
 
-    Ok(())
+	let output_path = args.output_path.unwrap_or_else(|| {
+    	format!("{}.c", args.input_path)
+	});
+
+    if let Err(err) = fs::write(&output_path, output) {
+        eprintln!("Failed to write '{}': {}", output_path, err);
+        std::process::exit(1);
+    }
 }
