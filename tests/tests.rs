@@ -11,7 +11,7 @@ fn parse_empty_string() {
 }
 
 #[test]
-fn parse_greater_than_symbol() {
+fn parse_gt_plus_lt() {
     assert_parse(
         ">+<",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;ptr++;mem[ptr]++;ptr--;}",
@@ -19,7 +19,7 @@ fn parse_greater_than_symbol() {
 }
 
 #[test]
-fn parse_less_than_symbol() {
+fn parse_lt_plus_gt() {
     assert_parse(
         "<+>",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;ptr--;mem[ptr]++;ptr++;}",
@@ -27,15 +27,7 @@ fn parse_less_than_symbol() {
 }
 
 #[test]
-fn parse_plus_symbol() {
-    assert_parse(
-        ">+<",
-        "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;ptr++;mem[ptr]++;ptr--;}",
-    );
-}
-
-#[test]
-fn parse_minus_symbol() {
+fn parse_minus_lt_plus() {
     assert_parse(
         "-<+",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;mem[ptr]--;ptr--;mem[ptr]++;}",
@@ -43,7 +35,7 @@ fn parse_minus_symbol() {
 }
 
 #[test]
-fn parse_comma_symbol() {
+fn parse_comma_plus_right() {
     assert_parse(
         ",+>",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;mem[ptr] = getchar();mem[ptr]++;ptr++;}",
@@ -51,7 +43,7 @@ fn parse_comma_symbol() {
 }
 
 #[test]
-fn parse_period_symbol() {
+fn parse_period_plus_right() {
     assert_parse(
         ".+>",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;putchar(mem[ptr]);mem[ptr]++;ptr++;}",
@@ -59,7 +51,7 @@ fn parse_period_symbol() {
 }
 
 #[test]
-fn parse_open_bracket_symbol() {
+fn parse_open_plus_close_minus() {
     assert_parse(
         "[+]-",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;while(mem[ptr]){mem[ptr]++;};mem[ptr]--;}",
@@ -67,7 +59,7 @@ fn parse_open_bracket_symbol() {
 }
 
 #[test]
-fn parse_close_bracket_symbol() {
+fn parse_close_plus() {
     assert_parse(
         "]+",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;};mem[ptr]++;}",
@@ -75,7 +67,7 @@ fn parse_close_bracket_symbol() {
 }
 
 #[test]
-fn parse_ignores_unknown_characters() {
+fn parse_unknown_characters() {
     assert_parse(
         "abc<>123+-XYZ",
         "#include <stdio.h>\nint main(){unsigned char mem[3000] = {0};unsigned int ptr = 0;ptr--;ptr++;mem[ptr]++;mem[ptr]--;}",
