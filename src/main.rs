@@ -1,8 +1,6 @@
 use clap::Parser;
 use std::fs;
 
-mod parser;
-
 #[derive(Parser, Debug)]
 struct Args {
     input_path: String,
@@ -23,7 +21,7 @@ fn main() {
         }
     };
 
-    let output = parser::parse(input_string);
+    let output = bfc::parse(input_string);
 
 	let output_path = args.output_path.unwrap_or_else(|| {
     	format!("{}.c", args.input_path)
