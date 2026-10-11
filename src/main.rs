@@ -9,7 +9,6 @@ struct Args {
     output_path: Option<String>,
 }
 
-
 fn main() {
     let args = Args::parse();
 
@@ -23,9 +22,9 @@ fn main() {
 
     let output = bfc::parse(input_string);
 
-	let output_path = args.output_path.unwrap_or_else(|| {
-    	format!("{}.c", args.input_path)
-	});
+    let output_path = args
+        .output_path
+        .unwrap_or_else(|| format!("{}.c", args.input_path));
 
     if let Err(err) = fs::write(&output_path, output) {
         eprintln!("Failed to write '{}': {}", output_path, err);
